@@ -11,6 +11,8 @@ const People = [
   'orange',
 ]
 
+const DecisionThreshold = 120;
+
 class Flix extends Component {
   constructor(props) {
     super(props);
@@ -58,15 +60,10 @@ class Flix extends Component {
 
       onPanResponderRelease: (e, {vx, vy}) => {
         this.state.pan.flattenOffset();
-        var velocity;
 
-        if (vx > 0) {
-          velocity = clamp(vx, 3, 5);
-        } else if (vx < 0) {
-          velocity = clamp(vx * -1, 3, 5) * -1;
-        }
-
-        if (this.state.pan.x._value > 120 || this.state.pan.x._value < -120) {
+        var direction = vx > 0 ? 1 : -1;
+        var velocity = clamp(Math.abs(vx), 3, 5) * direction;
+        if (Math.abs(this.state.pan.x._value) > DecisionThreshold) {
           Animated.decay(this.state.pan.x, {
             velocity: velocity,
             deceleration: 0.98,
