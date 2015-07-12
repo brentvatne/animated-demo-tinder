@@ -58,12 +58,10 @@ class Flix extends Component {
         null, {dx: this.state.pan.x, dy: this.state.pan.y},
       ]),
 
-      onPanResponderRelease: (e, {vx, vy}) => {
-        this.state.pan.flattenOffset();
-
+      onPanResponderRelease: (e, {dx, vx, vy}) => {
         var direction = vx > 0 ? 1 : -1;
         var velocity = clamp(Math.abs(vx), 3, 5) * direction;
-        if (Math.abs(this.state.pan.x._value) > DecisionThreshold) {
+        if (Math.abs(dx) > DecisionThreshold) {
           Animated.decay(this.state.pan.x, {
             velocity: velocity,
             deceleration: 0.98,
