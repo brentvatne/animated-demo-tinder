@@ -22,6 +22,7 @@ class Flix extends Component {
       enter: new Animated.Value(0.5),
       person: People[0],
     }
+    this._resetState = this._resetState.bind(this);
   }
 
   _goToNextPerson() {
